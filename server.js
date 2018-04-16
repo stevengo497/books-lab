@@ -42,7 +42,6 @@ var port = 3000;
 
 
 
-
 // define a root route: localhost:3000/
 app.get('/', function (req, res) {
   res.sendFile('views/index.html' , { root : __dirname});
@@ -64,12 +63,14 @@ app.get('/api/books', function (req, res) {
 app.get('/api/books/:id', function (req, res) {
   // find one book by its id
   console.log('books show', req.params);
-  for(var i=0; i < books.length; i++) {
-    if (books[i]._id == req.params.id) {
-      res.json(books[i]);
-      break; // we found the right book, we can stop searching
-    }
-  }
+    db.Book.find(function(err, books){
+      for(var i=0; i < books.length; i++) {
+        if (books[i].id == req.params.id) {
+          res.json(books[i]);
+          break; // we found the right book, we can stop searching
+        }
+      }
+  });    
 });
 
 // create new book
