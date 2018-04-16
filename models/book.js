@@ -1,11 +1,10 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 
-var BookSchema = new Schema({
+var BookSchema = new mongoose.Schema({
      title: String,
      author: String,
      image: String,
-     releaseDate: Number
+     release_date: Number
     // you should fill the rest of this in
  });
 
