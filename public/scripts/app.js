@@ -82,13 +82,13 @@ function newBookError() {
 }
 
 function deleteBookSuccess(json) {
-  var book = json;
-  console.log(json);
-  var bookId = book._id;
+  // var book = json;
+  // console.log(json);
+  var bookId = json;
   console.log('delete book', bookId);
   // find the book with the correct ID and remove it from our allBooks array
   for(var index = 0; index < allBooks.length; index++) {
-    if(allBooks[index]._id === bookId) {
+    if(allBooks[index]._id === bookId) { // runs json _id and if matches bookId (json), then it's true and splice
       allBooks.splice(index, 1);
       break;  // we found our book - no reason to keep searching (this is why we didn't use forEach)
     }

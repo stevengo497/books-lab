@@ -29,10 +29,7 @@ var port = 3000;
 //  DATA
 ///////////////////
 
-
-
-
-
+var newBookUUID = 9;
 
 
 
@@ -77,11 +74,16 @@ app.get('/api/books/:id', function (req, res) {
 app.post('/api/books', function (req, res) {
   // create new book with form data (`req.body`)
   console.log('books create', req.body);
-  var newBook = req.body;
-  newBook._id = newBookUUID++;
-  books.push(newBook);
-  res.json(newBook);
+  var inputBook = req.body;
+  // inputBook._id = newBookUUID++; //changed from _id to id
+  db.Book.create(inputBook, function(err, newBook){
+    res.json(newBook);
+  });
+
 });
+
+
+
 
 // update book
 app.put('/api/books/:id', function(req,res){
@@ -102,18 +104,18 @@ app.put('/api/books/:id', function(req,res){
 app.delete('/api/books/:id', function (req, res) {
   // get book id from url params (`req.params`)
   console.log('books delete', req.params);
-  var bookId = req.params.id;
-  // find the index of the book we want to remove
-  var deleteBookIndex = books.findIndex(function(element, index) {
-    return (element._id === parseInt(req.params.id)); //params are strings
-  });
-  console.log('deleting book with index', deleteBookIndex);
-  var bookToDelete = books[deleteBookIndex];
-  books.splice(deleteBookIndex, 1);
-  res.json(bookToDelete);
+  db.Book.findOneAndRemove({_id: req.params.id}, function (err, books) {
+  // var bookId = req.params.id;
+  //find the index of the book we want to remove
+  // var deleteBookIndex = books.findIndex(function(element, index) {
+  //   return (element._id === parseInt(req.params.id)); //params are strings
+  // });
+  // console.log('deleting book with index', deleteBookIndex);
+   })
+  var bookToDelete = req.params.id;
+  // books.splice(deleteBookIndex, 1);
+  res.json(bookToDelete); // this grabs the mongo ID and changes to json
 });
-
-
 
 
 
