@@ -77,9 +77,13 @@ app.post('/api/books', function (req, res) {
   var inputBook = req.body;
   // inputBook._id = newBookUUID++; //changed from _id to id
   db.Book.create(inputBook, function(err, newBook){
+    if (err) {
+      console.log("error is bad")
+      res.sendStatus(500)
+    } else {
     res.json(newBook);
+      }
   });
-
 });
 
 
